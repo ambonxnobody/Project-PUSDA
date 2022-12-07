@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
+
+
+
 
 export const LoginForm = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  // password
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const navigate = useNavigate();
   const [message, setMessage] = useState([]);
@@ -29,7 +37,7 @@ export const LoginForm = () => {
       if (res.status != 200) {
         let message = resJson.message;
 
-        if (! Array.isArray(message))
+        if (!Array.isArray(message))
           message = [resJson.message];
 
         return setMessage(message);
@@ -45,7 +53,7 @@ export const LoginForm = () => {
       if (roles.filter(e => e.name === 'admin').length > 0) {
         return navigate('/dashboard/admin');
       }
-      
+
       return navigate('/dashboard/upt');
 
     } catch (error) {
@@ -54,7 +62,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <form  onSubmit={handleSubmit} className="d-flex flex-col justify-content-center align-items-center h-100 w-75 gap-1">
+    <form onSubmit={handleSubmit} className="d-flex flex-col justify-content-center align-items-center h-100 w-75 gap-1">
       <div className="form-group w-100">
         <label htmlFor="email">Email</label>
         <input
@@ -73,11 +81,11 @@ export const LoginForm = () => {
           required
         />
       </div>
-      <div className="form-group w-100">
+      <div className="form-group w-100 position-relative">
         <label htmlFor="password">Kata Sandi</label>
         <input
           className="rounded"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           id="password"
           placeholder="Masukkan Kata Sandi"
@@ -90,20 +98,26 @@ export const LoginForm = () => {
           }
           required
         />
+        <div className="position-absolute mt-4 end-0">
+          <button className="btn btn-none" onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <FiEye /> : <FiEyeOff />}
+          </button>
+
+        </div>
       </div>
 
       {/* Error text container */}
       <div className="error-text-container w-100">
-        { message.map((item, key) => {
+        {message.map((item, key) => {
           return <div className="text-danger" key={key}> {item} </div>;
-        }) }
+        })}
       </div>
 
       <div className="form-group submit-btn w-100 gap-2">
         <Button
           type="submit"
           className="rounded bg-cyanblue text-light form-btn mt-2 font-semibold text-center"
-          // loading={isLoading}
+        // loading={isLoading}
         >
           MASUK
         </Button>

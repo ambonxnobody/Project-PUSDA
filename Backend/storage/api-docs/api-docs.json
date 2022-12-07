@@ -1,0 +1,1155 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentation API PU-SDA-JATIM",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Login",
+                "description": "Login User Here",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "email"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Selamat datang! Anda berhasil masuk",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Selamat datang! Anda berhasil masuk",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Kredensial masuk tidak valid,Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Tidak dapat membuat token",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get Data User after Login",
+                "operationId": "User",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Log Out",
+                "operationId": "logout",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/admin/add/user": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin Add access user",
+                "description": "only admin can add user data",
+                "operationId": "addUser",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "slug",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "role_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "slug": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "password"
+                                    },
+                                    "role_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "'Data pengguna ditambahkan diubah!",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "'Data pengguna berhasil ditambahkan!",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/admin/update/user/{id}": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin Edit access user",
+                "description": "only admin can update user data",
+                "operationId": "editUser",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "slug",
+                                    "role_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "slug": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "role_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "'Data pengguna berhasil diubah!",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "'Data pengguna berhasil diubah!",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/admin/edit/user/{id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin calls user based on his id ",
+                "description": "only my admin role can access this api",
+                "operationId": "Adminedituser",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/admin/delete/user/{id}": {
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin remove user access ",
+                "description": "only my admin role can access this api",
+                "operationId": "Admindeleteuser",
+                "responses": {
+                    "200": {
+                        "description": "Data pengguna berhasil dihapus"
+                    }
+                }
+            }
+        },
+        "/api/childer": {
+            "get": {
+                "tags": [
+                    "Childers"
+                ],
+                "operationId": "childers",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/childer/create": {
+            "post": {
+                "tags": [
+                    "Childers"
+                ],
+                "operationId": "childeradd",
+                "parameters": [
+                    {
+                        "name": "parent_id",
+                        "in": "query",
+                        "description": "parent_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "rental_retribution ",
+                        "in": "query",
+                        "description": "rental_retribution ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "utilization_engagement_type",
+                        "in": "query",
+                        "description": "utilization_engagement_type",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "utilization_engagement_name",
+                        "in": "query",
+                        "description": "utilization_engagement_name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "allotment_of_use",
+                        "in": "query",
+                        "description": "allotment_of_use",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coordinate",
+                        "in": "query",
+                        "description": "coordinate",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "large",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "validity_period_of",
+                        "in": "query",
+                        "description": "validity_period_of",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "validity_period_until",
+                        "in": "query",
+                        "description": "validity_period_until",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "engagement_number",
+                        "in": "query",
+                        "description": "engagement_number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "engagement_date",
+                        "in": "query",
+                        "description": "engagement_date",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "application_letter",
+                        "in": "query",
+                        "description": "application_letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "agreement_letter",
+                        "in": "query",
+                        "description": "agreement_letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/childer/update/{id}": {
+            "put": {
+                "tags": [
+                    "Childers"
+                ],
+                "operationId": "childerupdate",
+                "parameters": [
+                    {
+                        "name": "parent_id",
+                        "in": "query",
+                        "description": "parent_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "rental_retribution ",
+                        "in": "query",
+                        "description": "rental_retribution ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "utilization_engagement_type",
+                        "in": "query",
+                        "description": "utilization_engagement_type",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "utilization_engagement_name",
+                        "in": "query",
+                        "description": "utilization_engagement_name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "allotment_of_use",
+                        "in": "query",
+                        "description": "allotment_of_use",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coordinate",
+                        "in": "query",
+                        "description": "coordinate",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "large",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "validity_period_of",
+                        "in": "query",
+                        "description": "validity_period_of",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "validity_period_until",
+                        "in": "query",
+                        "description": "validity_period_until",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "engagement_number",
+                        "in": "query",
+                        "description": "engagement_number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "engagement_date",
+                        "in": "query",
+                        "description": "engagement_date",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "application_letter",
+                        "in": "query",
+                        "description": "application_letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "agreement_letter",
+                        "in": "query",
+                        "description": "agreement_letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/childer/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Childers"
+                ],
+                "operationId": "childerdelete",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/password/email": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "passdEmail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/password/reset": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "resetPassword",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password_confirmation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/import/file/parent": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "operationId": "importfileparent",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "file",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/import/file/children/{id}": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "operationId": "importfilechildren",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "file",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/export/all/data/upt": {
+            "get": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Admin access api ",
+                "description": "only admin can download all upt data and access api",
+                "operationId": "Exportdataall",
+                "responses": {
+                    "200": {
+                        "description": "Data semua upt berhasil di download!"
+                    }
+                }
+            }
+        },
+        "/export/data": {
+            "get": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "users can download data based on their roles ",
+                "description": "only user can download all upt data and access api",
+                "operationId": "ExportPerUpt",
+                "responses": {
+                    "200": {
+                        "description": "Data semua upt berhasil di unduh!"
+                    }
+                }
+            }
+        },
+        "/api/parent": {
+            "get": {
+                "tags": [
+                    "Parents"
+                ],
+                "operationId": "parents",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/parent/create": {
+            "post": {
+                "tags": [
+                    "Parents"
+                ],
+                "operationId": "parentadd",
+                "parameters": [
+                    {
+                        "name": "auhtor",
+                        "in": "query",
+                        "description": "user_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "certificate_number ",
+                        "in": "query",
+                        "description": "certificate_number ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "certificate_date",
+                        "in": "query",
+                        "description": "certificate_date",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "utilization_type",
+                        "in": "query",
+                        "description": "utilization_type",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "address",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "large",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "asset_value",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/parent/update/{id}": {
+            "put": {
+                "tags": [
+                    "Parents"
+                ],
+                "operationId": "parentupdate",
+                "parameters": [
+                    {
+                        "name": "certificate_number ",
+                        "in": "query",
+                        "description": "certificate_number ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "certificate_date",
+                        "in": "query",
+                        "description": "certificate_date",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "utilization_type",
+                        "in": "query",
+                        "description": "utilization_type",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "address",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "large",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "asset_value",
+                        "in": "query",
+                        "description": "large",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/parent/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Parents"
+                ],
+                "operationId": "parentdelete",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/payment": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "payments",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/payment/create": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "paymentadd",
+                "parameters": [
+                    {
+                        "name": "childrens_id",
+                        "in": "query",
+                        "description": "childrens_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "year ",
+                        "in": "query",
+                        "description": "year ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "proof_of_payment",
+                        "in": "query",
+                        "description": "proof_of_payment",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "payment_amount",
+                        "in": "query",
+                        "description": "payment_amount",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/payment/update/{id}": {
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "paymentupdate",
+                "parameters": [
+                    {
+                        "name": "childrens_id",
+                        "in": "query",
+                        "description": "childrens_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "year ",
+                        "in": "query",
+                        "description": "year ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "proof_of_payment",
+                        "in": "query",
+                        "description": "proof_of_payment",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "payment_amount",
+                        "in": "query",
+                        "description": "payment_amount",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/payment/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "paymentdelete",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/user/upload/photo/{id}": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "User uploaded photo after log in",
+                "operationId": "upload",
+                "parameters": [
+                    {
+                        "name": "photo",
+                        "in": "query",
+                        "description": "photo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/user/update/{id}": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "User changes data after login",
+                "operationId": "userupdate",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/user/change-password": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "The user changes the password after logging in",
+                "description": "Password minimum 8 character",
+                "operationId": "userupdatepass",
+                "parameters": [
+                    {
+                        "name": "current_passsowrd",
+                        "in": "query",
+                        "description": "current_passsowrd",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password_confirmation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/user/all": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin all access user",
+                "description": "only my admin role can access this api",
+                "operationId": "Admin",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -3,6 +3,7 @@ import { DashboardTableRow } from "../../components/Dashboard/DashboardTableRow"
 import LayoutAdmin from "../../components/Layout/layoutAdmin";
 
 export const DashboardAdmin = () => {
+
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const formatter = new Intl.NumberFormat("id-ID", {
@@ -38,13 +39,13 @@ export const DashboardAdmin = () => {
 
                 let resJson = await res.json();
 
-                if (res.status != 200) {
+                if (res.status !== 200) {
                     return console.log(resJson.message);
                 }
 
                 let resData = resJson.data;
 
-                if (resData.length == 0) {
+                if (resData.length === 0) {
                     return setEmptyMsg("Tidak ada data.");
                 }
 
@@ -86,7 +87,7 @@ export const DashboardAdmin = () => {
         };
 
         fetchData().catch(console.error);
-    }, [filterYear]);
+    }, [filterYear]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <LayoutAdmin>
@@ -148,10 +149,10 @@ export const DashboardAdmin = () => {
                             </div>
                         </div>
                     </div>
-                    {emptyMsg == "" ? (
+                    {emptyMsg === "" ? (
                         <>
                             {dashboardData.map((item) => {
-                                return <DashboardTableRow title={item.name} dashboardItem={item} />;
+                                return <DashboardTableRow key={item.id} title={item.name} dashboardItem={item} />;
                             })}
                         </>
                     ) : (

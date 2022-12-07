@@ -40,13 +40,13 @@ export const DashboardUPT = () => {
 
                 let resJson = await res.json();
 
-                if (res.status != 200) {
+                if (res.status !== 200) {
                     return console.log(resJson.message);
                 }
 
                 let resData = resJson.data;
 
-                if (resData.length == 0) {
+                if (resData.length === 0) {
                     return setEmptyMsg("Tidak ada data.");
                 }
 
@@ -61,7 +61,7 @@ export const DashboardUPT = () => {
                     total_tanah_retribusi: resData[0].total_tanah_retribusi,
                     total_rupiah_tanah_retribusi: resData[0].total_rupiah_tanah_retribusi
                 });
-                
+
                 setDashboardData(resData);
             } catch (error) {
                 console.log(error);
@@ -69,7 +69,7 @@ export const DashboardUPT = () => {
         };
 
         fetchData().catch(console.error);
-    }, [filterYear]);
+    }, [filterYear]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <LayoutUPT>
@@ -131,7 +131,7 @@ export const DashboardUPT = () => {
                             </div>
                         </div>
                     </div>
-                    {emptyMsg == "" ? (
+                    {emptyMsg === "" ? (
                         <>
                             {dashboardData.map((item) => {
                                 return (

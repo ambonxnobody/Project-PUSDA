@@ -1,12 +1,15 @@
-import { useState,useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+// import useParams from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LayoutAdmin from "../../../components/Layout/layoutAdmin";
+
+import Swal from "sweetalert2";
 
 export const TambahUser = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
-  const params = useParams();
+  // const params = useParams();
 
   const [user, setUser] = useState({
     name: "",
@@ -41,10 +44,34 @@ export const TambahUser = () => {
 
       if (res.status != 201) {
         let message = resJson.message;
-        if (!Array.isArray(message)) message = [resJson.message];
+        if (!Array.isArray(message)) {
+          message = [resJson.message];
 
-        return setMessage(message);
+          let messageList = "";
+          message.forEach((item) => {
+            messageList += "<li>" + item + "</li>";
+          });
+
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            html: messageList,
+            // text: messageList,
+            // timer: 1000,
+          });
+
+          // return setMessage(message);
+        }
       }
+
+      Swal.fire({
+        title: "Berhasil",
+        text: resJson.message,
+        icon: "success",
+        timer: 1000,
+        // position: "center",
+        // showConfirmButton: false,
+      });
 
       return navigate("/manajemenuser/admin");
     } catch (error) {
@@ -67,12 +94,11 @@ export const TambahUser = () => {
 
         let resJson = await res.json();
 
-        if (res.status != 200) {
+        if (res.status !== 200) {
           return console.log(resJson.message);
         }
 
         let resData = resJson;
-        console.log(resData);
         setRole(resData);
       } catch (error) {
         console.log(error);
@@ -123,7 +149,7 @@ export const TambahUser = () => {
       <div className="m-3">
         <h5 style={{ paddingBottom: "20px" }}>Tambah Data User</h5>
 
-        <div className="error-text-container w-100">
+        {/* <div className="error-text-container w-100">
           {message.map((item, key) => {
             return (
               <div className="text-danger" key={key}>
@@ -131,7 +157,7 @@ export const TambahUser = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
         <form className="form-tambah-tanah d-flex flex-col gap-3 px-5">
           <div>
@@ -167,12 +193,12 @@ export const TambahUser = () => {
                 <option value="" disabled>
                   -- Pilih --
                 </option>
-                {role.map((item) => {
+                {role.map((item, key) => {
                   return (
-                    <option value={item.id}>{item.name}</option>
+                    <option key={key} value={item.id}>{item.name}</option>
                   );
                 })}
-                
+
               </select>
             </div>
           </div>

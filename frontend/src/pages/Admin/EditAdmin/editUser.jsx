@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LayoutAdmin from "../../../components/Layout/layoutAdmin";
 
+import Swal from "sweetalert2";
+
 export const EditUser = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -9,7 +11,7 @@ export const EditUser = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
-  const [message, setMessage] = useState([]);
+  // const [message, setMessage] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,8 +36,30 @@ export const EditUser = () => {
         let message = resJson.message;
         if (!Array.isArray(message)) message = [resJson.message];
 
-        return setMessage(message);
+        let messageList = "";
+        message.forEach((item) => {
+          messageList += "<li>" + item + "</li>";
+        });
+
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: messageList,
+          // text: messageList,
+          // timer: 1000,
+        });
+
+        // return setMessage(message);
       }
+
+      Swal.fire({
+        title: "Berhasil",
+        text: resJson.message,
+        icon: "success",
+        timer: 1000,
+        // position: "center",
+        // showConfirmButton: false,
+      });
 
       return navigate("/manajemenuser/admin");
     } catch (error) {
@@ -58,7 +82,7 @@ export const EditUser = () => {
 
         let resJson = await res.json();
 
-        if (res.status != 200) {
+        if (res.status !== 200) {
           return console.log(resJson.message);
         }
 
@@ -71,7 +95,7 @@ export const EditUser = () => {
     };
 
     fetchUser().catch(console.error);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LayoutAdmin>

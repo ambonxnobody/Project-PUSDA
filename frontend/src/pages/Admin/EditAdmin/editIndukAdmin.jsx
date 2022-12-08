@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LayoutAdmin from "../../../components/Layout/layoutAdmin";
 
+import Swal from "sweetalert2";
+
 export const EditIndukAdmin = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -34,8 +36,27 @@ export const EditIndukAdmin = () => {
         let message = resJson.message;
         if (!Array.isArray(message)) message = [resJson.message];
 
-        return setMessage(message);
+        let messageList = "";
+        message.forEach((item) => {
+          messageList += "<li>" + item + "</li>";
+        });
+
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: messageList,
+          // text: messageList,
+          // timer: 1000,
+        });
+
+        // return setMessage(message);
       }
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: resJson.message,
+        timer: 1000,
+      });
 
       return navigate("/upt/" + params.id + "/admin");
     } catch (error) {
@@ -70,7 +91,7 @@ export const EditIndukAdmin = () => {
     };
 
     fetchInduk().catch(console.error);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LayoutAdmin>
@@ -116,7 +137,7 @@ export const EditIndukAdmin = () => {
       <div className="m-3">
         <h5 style={{ paddingBottom: "20px" }}>Edit Tanah Induk</h5>
 
-        <div className="error-text-container w-100">
+        {/* <div className="error-text-container w-100">
           {message.map((item, key) => {
             return (
               <div className="text-danger" key={key}>
@@ -124,7 +145,7 @@ export const EditIndukAdmin = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
         <form className="form-tambah-tanah d-flex flex-col gap-3 px-5">
           <div>

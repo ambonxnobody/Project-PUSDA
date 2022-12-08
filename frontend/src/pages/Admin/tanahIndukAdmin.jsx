@@ -55,12 +55,12 @@ export const TanahIndukAdmin = () => {
             try {
                 let res = await fetch(
                     apiUrl +
-                        "parent/all?page=" +
-                        pageNum +
-                        "&auhtor=" +
-                        authorId +
-                        "&keyword=" +
-                        search,
+                    "parent/all?page=" +
+                    pageNum +
+                    "&auhtor=" +
+                    authorId +
+                    "&keyword=" +
+                    search,
                     {
                         method: "GET",
                         headers: {
@@ -84,7 +84,7 @@ export const TanahIndukAdmin = () => {
                     setPageCount(resJson.data.last_page);
                     setStartingPoint(
                         resJson.data.per_page * resJson.data.current_page -
-                            (resJson.data.per_page - 1)
+                        (resJson.data.per_page - 1)
                     );
                 }
 

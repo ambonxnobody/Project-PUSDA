@@ -61,7 +61,7 @@ export const ManajemenUser = () => {
 
         let resJson = await res.json();
 
-        if (res.status != 200) {
+        if (res.status !== 200) {
           return console.log(resJson.message);
         }
 
@@ -73,18 +73,16 @@ export const ManajemenUser = () => {
           setPageCount(resJson.data.last_page);
           setStartingPoint(
             resJson.data.per_page * resJson.data.current_page -
-              (resJson.data.per_page - 1)
+            (resJson.data.per_page - 1)
           );
         }
 
         let resData = Array.isArray(resJson.data)
           ? resJson.data
           : resJson.data.data;
-        if (resData.length == 0) {
+        if (resData.length === 0) {
           return setEmptyMsg("Tidak ada data.");
         }
-
-        console.log(resData);
 
         setEmptyMsg("");
         setData(resData);
@@ -94,7 +92,7 @@ export const ManajemenUser = () => {
     };
 
     fetchData().catch(console.error);
-  }, [params.id, triggerDeleted, pageNum, search]);
+  }, [params.id, triggerDeleted, pageNum, search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleEditTanah = () => {
     if (openEditTanah) {
@@ -129,7 +127,7 @@ export const ManajemenUser = () => {
           </div>
         </div>
         <div>
-          {emptyMsg == "" ? (
+          {emptyMsg === "" ? (
             <>
               {data.map((item, key) => {
                 return (

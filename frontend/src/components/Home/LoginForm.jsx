@@ -2,16 +2,13 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-
-
-
+import Swal from "sweetalert2";
 
 export const LoginForm = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // password
+  // password visibility
   const [showPassword, setShowPassword] = useState(false);
-
 
   const navigate = useNavigate();
   const [message, setMessage] = useState([]);
@@ -34,28 +31,43 @@ export const LoginForm = () => {
 
       let resJson = await res.json();
 
-      if (res.status != 200) {
+      if (res.status !== 200) {
         let message = resJson.message;
 
         if (!Array.isArray(message))
           message = [resJson.message];
 
+        // Jika ingin menggunakan sweetalert2 untuk menampilkan pesan error login
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Gagal Login',
+        //   text: message[0],
+        //   timer: 1000,
+        // })
+
         return setMessage(message);
+      } else {
+        // Check roles
+        localStorage.setItem('user_id', resJson.user.id);
+        localStorage.setItem('user_name', resJson.user.name);
+        localStorage.setItem('user_slug', resJson.user.slug);
+        localStorage.setItem('token', resJson.token);
+
+        Swal.fire({
+          position: 'top',
+          text: `${resJson.message} ${resJson.user.name}`,
+          showConfirmButton: false,
+          timer: 1000,
+          // title: 'Berhasil Login',
+        })
+
+        let roles = resJson.user.roles;
+        if (roles.filter(e => e.name === 'admin').length > 0) {
+          return navigate('/dashboard/admin');
+        }
+
+        return navigate('/dashboard/upt');
       }
-
-      // Check roles
-      localStorage.setItem('user_id', resJson.user.id);
-      localStorage.setItem('user_name', resJson.user.name);
-      localStorage.setItem('user_slug', resJson.user.slug);
-      localStorage.setItem('token', resJson.token);
-
-      let roles = resJson.user.roles;
-      if (roles.filter(e => e.name === 'admin').length > 0) {
-        return navigate('/dashboard/admin');
-      }
-
-      return navigate('/dashboard/upt');
-
     } catch (error) {
       console.log(error);
     }
@@ -98,10 +110,10 @@ export const LoginForm = () => {
           }
           required
         />
-        <div className="position-absolute mt-4 end-0">
-          <button className="btn btn-none" onClick={() => setShowPassword(!showPassword)}>
+        <div className="position-absolute top-icon-eye end-0">
+          <div className="btn btn-none" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FiEye /> : <FiEyeOff />}
-          </button>
+          </div>
 
         </div>
       </div>

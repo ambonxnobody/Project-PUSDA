@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  --cyanblue : #3C9EAC
-  /* --darkcyan : #32848F */
+  --cyanblue: #3C9EAC
+    /* --darkcyan : #32848F */
 }
 
 * {
@@ -193,12 +193,12 @@ form .form-btn {
   border-radius: 10px;
 }
 
-.dashboard-table .row-content{
+.dashboard-table .row-content {
   font-weight: 600;
   font-size: 15px;
   color: var(--cyanblue);
   border-bottom: 2px var(--cyanblue) solid;
-} 
+}
 
 .dashboard-table .col-footer {
   outline: var(--cyanblue) 3px solid;
@@ -297,16 +297,16 @@ form .form-btn {
   font-size: 14px;
 }
 
-.informasi-tanah > div {
+.informasi-tanah>div {
   gap: 25%;
 }
 
 .table-title {
   font-size: 13px;
-  color:#BCBCBC;
+  color: #BCBCBC;
 }
 
-.table-tanah-bagian > *:hover {
+.table-tanah-bagian>*:hover {
   outline: 1px var(--cyanblue) solid;
 }
 
@@ -326,4 +326,8 @@ form .form-btn {
   justify-content: flex-end;
   width: 95%;
   margin-top: 20px;
+}
+
+.top-icon-eye {
+  top: 1.75rem;
 }

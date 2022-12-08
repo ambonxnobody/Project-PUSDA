@@ -37,7 +37,7 @@ Auth::routes([
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::group(['prefix' => 'dashboard','middleware' => ['web','auth']] , function() {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['web', 'auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('changes-password', [DashboardController::class, 'changePassword'])->name('change.password');
@@ -52,9 +52,9 @@ Route::group(['prefix' => 'dashboard','middleware' => ['web','auth']] , function
     Route::get('/upload-photo/{id}', [DashboardController::class, 'vieUpload'])->name('upload.photo');
     Route::post('/upload-photo/{id}', [DashboardController::class, 'vieUploadPost'])->name('uploadphoto.post');
 
-    Route::resource('/profil',ProfileController::class)->except('show','create','store','destroy');
+    Route::resource('/profil', ProfileController::class)->except('show', 'create', 'store', 'destroy');
 
-    Route::resource('/assets/soil',ParentsController::class);
+    Route::resource('/assets/soil', ParentsController::class);
 
     //Childern
     Route::get('/assets/soil/childern/create/{id}', [childersController::class, 'create'])->name('childern.create');
@@ -69,7 +69,7 @@ Route::group(['prefix' => 'dashboard','middleware' => ['web','auth']] , function
     // Route::post('/assets/soil/childern/payment/post', [PaymentController::class, 'store'])->name('payment.store');
 
     // CRUD data upt kediri
-    Route::resource('/assets-soil/kediri',UptKediriController::class);
+    Route::resource('/assets-soil/kediri', UptKediriController::class);
 
     Route::get('/management/users', [DashboardController::class, 'management_index'])->name('usermanagement.index');
     Route::get('/management/user/create', [DashboardController::class, 'management_create'])->name('usermanagement.create');

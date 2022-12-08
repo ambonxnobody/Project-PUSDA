@@ -40,13 +40,13 @@ export const DashboardUPT = () => {
 
                 let resJson = await res.json();
 
-                if (res.status != 200) {
+                if (res.status !== 200) {
                     return console.log(resJson.message);
                 }
 
                 let resData = resJson.data;
 
-                if (resData.length == 0) {
+                if (resData.length === 0) {
                     return setEmptyMsg("Tidak ada data.");
                 }
 
@@ -61,7 +61,7 @@ export const DashboardUPT = () => {
                     total_tanah_retribusi: resData[0].total_tanah_retribusi,
                     total_rupiah_tanah_retribusi: resData[0].total_rupiah_tanah_retribusi
                 });
-                
+
                 setDashboardData(resData);
             } catch (error) {
                 console.log(error);
@@ -69,7 +69,31 @@ export const DashboardUPT = () => {
         };
 
         fetchData().catch(console.error);
-    }, [filterYear]);
+    }, [filterYear]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const exportData = async () => {
+        let token = localStorage.getItem("token");
+
+        try {
+            let res = await fetch(apiUrl + "export/data", {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    Authorization: "Bearer " + token,
+                },
+            });
+
+            let resJson = await res.json();
+
+            if (res.status !== 200) {
+                return console.log(resJson.message);
+            }
+
+            console.log(resJson);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <LayoutUPT>
@@ -87,9 +111,13 @@ export const DashboardUPT = () => {
                     <option value="2019">2019</option>
                 </select>
                 <div className="d-flex gap-2 align-items-center">
-                    <div className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
+
+                    <div onClick={() => exportData()} className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
                         EXPORT DATA
                     </div>
+                    {/* <div className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
+                        EXPORT DATA
+                    </div> */}
                 </div>
             </div>
 
@@ -131,7 +159,7 @@ export const DashboardUPT = () => {
                             </div>
                         </div>
                     </div>
-                    {emptyMsg == "" ? (
+                    {emptyMsg === "" ? (
                         <>
                             {dashboardData.map((item) => {
                                 return (

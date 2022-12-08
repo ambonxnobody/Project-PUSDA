@@ -51,12 +51,11 @@ class ImportExportData extends Controller
         endif;
 
         try {
-            Excel::import(new IndukImport,request()->file('file'));
+            Excel::import(new IndukImport, request()->file('file'));
             return ResponseFormatter::responseSuccessWithData('Data Berhasil di Import');
-        }catch (Exception $error) {
+        } catch (Exception $error) {
             return ResponseFormatter::responseError($error->getMessage(), 400);
         }
-
     }
 
     /**
@@ -80,7 +79,7 @@ class ImportExportData extends Controller
      * )
      */
 
-    public function import_children(Request $request,$id)
+    public function import_children(Request $request, $id)
     {
         $validation = Validator::make($request->only('file'), [
             'file' => 'required|mimes:csv,xlx,xls,xlsx'
@@ -91,12 +90,11 @@ class ImportExportData extends Controller
         endif;
 
         try {
-            Excel::import(new AnakImport($id),request()->file('file'));
+            Excel::import(new AnakImport($id), request()->file('file'));
             return ResponseFormatter::responseSuccessWithData('Data Berhasil di Import');
-        }catch (Exception $error) {
+        } catch (Exception $error) {
             return ResponseFormatter::responseError($error->getMessage(), 400);
         }
-
     }
 
 
@@ -117,15 +115,14 @@ class ImportExportData extends Controller
     public function exportMapping()
     {
         try {
-             Excel::download(new DataAllUptExport(), 'Semua-data-upt.xlsx');
+            Excel::download(new DataAllUptExport(), 'Semua-data-upt.xlsx');
             return ResponseFormatter::responseSuccessWithData('Data semua upt berhasil di unduh!');
-        }catch (Exception $error) {
+        } catch (Exception $error) {
             return ResponseFormatter::responseError($error->getMessage(), 400);
         }
-
     }
 
-     /**
+    /**
      * @OA\Get(
      *     path="/export/data",
      *     tags={"Export"},
@@ -141,13 +138,10 @@ class ImportExportData extends Controller
     public function exportMappingUpt()
     {
         try {
-             Excel::download(new ExportPerUpt(), 'file-download.xlsx');
+            Excel::download(new ExportPerUpt(), 'file-download.xlsx');
             return ResponseFormatter::responseSuccessWithData('Data berhasil di unduh!');
-        }catch (Exception $error) {
+        } catch (Exception $error) {
             return ResponseFormatter::responseError($error->getMessage(), 400);
         }
-
     }
-
-
 }

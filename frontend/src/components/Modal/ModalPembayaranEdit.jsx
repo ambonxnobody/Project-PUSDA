@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import Swal from "sweetalert2";
+
 export const ModalPembayaranEdit = ({ showEdit, handleCloseEdit, parentPayment, setParentPayment, paymentEdit, setPaymentEdit }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -30,11 +32,32 @@ export const ModalPembayaranEdit = ({ showEdit, handleCloseEdit, parentPayment, 
                 let message = resJson.message;
                 if (!Array.isArray(message)) message = [resJson.message];
 
-                return setMessage(message);
+                let messageList = "";
+                message.forEach((item) => {
+                    messageList += "<li>" + item + "</li>";
+                });
+
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: messageList,
+                    // text: messageList,
+                    // timer: 1000,
+                });
+
+
+                // return setMessage(message);
             }
 
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: resJson.message,
+                timer: 1000,
+            });
+
             handleCloseEdit();
-            
+
             const newData = resJson.data;
             setParentPayment(parentPayment.map((p) => {
                 if (p.id === newData.id) {
@@ -63,7 +86,7 @@ export const ModalPembayaranEdit = ({ showEdit, handleCloseEdit, parentPayment, 
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Informasi Pembayaran</Modal.Title>
-                    <div className="error-text-container w-100">
+                    {/* <div className="error-text-container w-100">
                         {message.map((item, key) => {
                             return (
                                 <div className="text-danger" key={key}>
@@ -71,7 +94,7 @@ export const ModalPembayaranEdit = ({ showEdit, handleCloseEdit, parentPayment, 
                                 </div>
                             );
                         })}
-                    </div>
+                    </div> */}
                 </Modal.Header>
                 <Modal.Body className="py-3">
                     <form className="d-flex flex-col form-tambah-tanah gap-2">

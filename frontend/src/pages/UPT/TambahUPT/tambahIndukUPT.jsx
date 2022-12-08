@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LayoutUPT from "../../../components/Layout/layoutUPT";
 
+import Swal from "sweetalert2";
+
 export const TambahIndukUPT = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -42,8 +44,27 @@ export const TambahIndukUPT = () => {
                 let message = resJson.message;
                 if (!Array.isArray(message)) message = [resJson.message];
 
-                return setMessage(message);
+                let messageList = "";
+                message.forEach((item) => {
+                    messageList += "<li>" + item + "</li>";
+                });
+
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: messageList,
+                    // text: messageList,
+                    // timer: 1000,
+                });
+
+                // return setMessage(message);
             }
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: resJson.message,
+                timer: 1000,
+            });
 
             return navigate("/upt/" + params.id + "/upt");
         } catch (error) {
@@ -99,7 +120,7 @@ export const TambahIndukUPT = () => {
             <div className="m-3">
                 <h5 style={{ paddingBottom: "20px" }}>Tambah Tanah Induk</h5>
 
-                <div className="error-text-container w-100">
+                {/* <div className="error-text-container w-100">
                     {message.map((item, key) => {
                         return (
                             <div className="text-danger" key={key}>
@@ -107,7 +128,7 @@ export const TambahIndukUPT = () => {
                             </div>
                         );
                     })}
-                </div>
+                </div> */}
 
                 <form className="form-tambah-tanah d-flex flex-col gap-3 px-5">
                     <div>

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LayoutAdmin from "../../../components/Layout/layoutAdmin";
 
+import Swal from "sweetalert2";
+
 export const EditBagianPppsAdmin = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -44,8 +46,28 @@ export const EditBagianPppsAdmin = () => {
                 let message = resJson.message;
                 if (!Array.isArray(message)) message = [resJson.message];
 
-                return setMessage(message);
+                let messageList = "";
+                message.forEach((item) => {
+                    messageList += "<li>" + item + "</li>";
+                });
+
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: messageList,
+                    // text: messageList,
+                    // timer: 1000,
+                });
+
+                // return setMessage(message);
             }
+
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: resJson.message,
+                timer: 1000,
+            });
 
             return navigate(
                 "/upt/" + params.id + "/admin/detail/" + params.induk_id
@@ -132,7 +154,7 @@ export const EditBagianPppsAdmin = () => {
                     Edit Tanah Bagian
                 </h5>
 
-                <div className="error-text-container w-100">
+                {/* <div className="error-text-container w-100">
                     {message.map((item, key) => {
                         return (
                             <div className="text-danger" key={key}>
@@ -140,7 +162,7 @@ export const EditBagianPppsAdmin = () => {
                             </div>
                         );
                     })}
-                </div>
+                </div> */}
 
                 <form className="d-flex form-tambah-tanah gap-5">
                     <div className="left-form d-flex flex-col gap-3">

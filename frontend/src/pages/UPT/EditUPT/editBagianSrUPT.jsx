@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LayoutUPT from "../../../components/Layout/layoutUPT";
 
+import Swal from "sweetalert2";
+
 export const EditBagianSrUPT = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -53,16 +55,36 @@ export const EditBagianSrUPT = () => {
                 let message = resJson.message;
                 if (!Array.isArray(message)) message = [resJson.message];
 
-                return setMessage(message);
+                let messageList = "";
+                message.forEach((item) => {
+                    messageList += "<li>" + item + "</li>";
+                });
+
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: messageList,
+                    // text: messageList,
+                    // timer: 1000,
+                });
+
+                // return setMessage(message);
             }
+
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: resJson.message,
+                timer: 1000,
+            });
 
             return navigate(
                 "/upt/" +
-                    params.id +
-                    "/upt/detail/" +
-                    params.induk_id +
-                    "/tanah-bagian-sr/" +
-                    params.children_id
+                params.id +
+                "/upt/detail/" +
+                params.induk_id +
+                "/tanah-bagian-sr/" +
+                params.children_id
             );
         } catch (error) {
             console.log(error);
@@ -145,7 +167,7 @@ export const EditBagianSrUPT = () => {
                 <h5 style={{ paddingBottom: "20px", paddingTop: "10px" }}>
                     Edit Tanah Bagian
                 </h5>
-                <div className="error-text-container w-100">
+                {/* <div className="error-text-container w-100">
                     {message.map((item, key) => {
                         return (
                             <div className="text-danger" key={key}>
@@ -153,7 +175,7 @@ export const EditBagianSrUPT = () => {
                             </div>
                         );
                     })}
-                </div>
+                </div> */}
 
                 <form className="d-flex form-tambah-tanah gap-5">
                     <div className="left-form d-flex flex-col gap-3">

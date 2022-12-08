@@ -11,7 +11,7 @@ export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const [message, setMessage] = useState([]);
+  // const [message, setMessage] = useState([]);
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -31,21 +31,27 @@ export const LoginForm = () => {
 
       let resJson = await res.json();
 
-      if (res.status !== 200) {
+      if (res.status != 200) {
         let message = resJson.message;
 
         if (!Array.isArray(message))
           message = [resJson.message];
 
         // Jika ingin menggunakan sweetalert2 untuk menampilkan pesan error login
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Gagal Login',
-        //   text: message[0],
-        //   timer: 1000,
-        // })
+        let messageList = "";
+        message.forEach((item) => {
+          messageList += "<li>" + item + "</li>";
+        });
 
-        return setMessage(message);
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: messageList,
+          // text: messageList,
+          // timer: 1000,
+        });
+
+        // return setMessage(message);
       } else {
         // Check roles
         localStorage.setItem('user_id', resJson.user.id);
@@ -54,11 +60,13 @@ export const LoginForm = () => {
         localStorage.setItem('token', resJson.token);
 
         Swal.fire({
-          position: 'top',
+          title: 'Berhasil Login',
+          icon: 'success',
           text: `${resJson.message} ${resJson.user.name}`,
-          showConfirmButton: false,
           timer: 1000,
-          // title: 'Berhasil Login',
+          // showConfirmButton: false,
+          // backdrop: false,
+          // position: 'top',
         })
 
         let roles = resJson.user.roles;
@@ -119,11 +127,11 @@ export const LoginForm = () => {
       </div>
 
       {/* Error text container */}
-      <div className="error-text-container w-100">
+      {/* <div className="error-text-container w-100">
         {message.map((item, key) => {
           return <div className="text-danger" key={key}> {item} </div>;
         })}
-      </div>
+      </div> */}
 
       <div className="form-group submit-btn w-100 gap-2">
         <Button

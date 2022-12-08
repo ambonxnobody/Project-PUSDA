@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import Swal from "sweetalert2";
+
 export const DeleteConfirmation = ({
     show,
     handleClose,
@@ -16,7 +18,7 @@ export const DeleteConfirmation = ({
         try {
             let token = localStorage.getItem("token");
 
-            await fetch(urlDelete, {
+            let res = await fetch(urlDelete, {
                 method: "DELETE",
                 body: JSON.stringify({ token }),
                 headers: {
@@ -24,7 +26,16 @@ export const DeleteConfirmation = ({
                 },
             });
 
+            let resJson = await res.json();
+
             if (triggerDeleted !== null) {
+                Swal.fire({
+                    title: "Terhapus",
+                    icon: "success",
+                    text: resJson.message,
+                    timer: 1000,
+                });
+
                 setTriggerDeleted(!triggerDeleted);
             }
 

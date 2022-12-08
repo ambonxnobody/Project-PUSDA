@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import Swal from "sweetalert2";
+
 export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPayment, setEmptyMsg }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -15,7 +17,7 @@ export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPay
         payment_amount: "",
     });
 
-    const [message, setMessage] = useState([]);
+    // const [message, setMessage] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,8 +42,28 @@ export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPay
                 let message = resJson.message;
                 if (!Array.isArray(message)) message = [resJson.message];
 
-                return setMessage(message);
+                let messageList = "";
+                message.forEach((item) => {
+                    messageList += "<li>" + item + "</li>";
+                });
+
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: messageList,
+                    // text: messageList,
+                    // timer: 1000,
+                });
+
+                // return setMessage(message);
             }
+
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: resJson.message,
+                timer: 1000,
+            });
 
             setPayment({
                 childrens_id: params.children_id,
@@ -51,11 +73,11 @@ export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPay
             });
 
             handleClose();
-            
+
             const newData = resJson.data[0];
             setParentPayment([
-              ...parentPayment,
-              newData
+                ...parentPayment,
+                newData
             ])
 
             setEmptyMsg('')
@@ -73,7 +95,7 @@ export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPay
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Informasi Pembayaran</Modal.Title>
-                    <div className="error-text-container w-100">
+                    {/* <div className="error-text-container w-100">
                         {message.map((item, key) => {
                             return (
                                 <div className="text-danger" key={key}>
@@ -81,7 +103,7 @@ export const ModalPembayaran = ({ show, handleClose, parentPayment, setParentPay
                                 </div>
                             );
                         })}
-                    </div>
+                    </div> */}
                 </Modal.Header>
                 <Modal.Body className="py-3">
                     <form className="d-flex flex-col form-tambah-tanah gap-2">

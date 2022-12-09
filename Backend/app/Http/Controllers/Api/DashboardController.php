@@ -216,7 +216,7 @@ class DashboardController extends Controller
 
         $data = $childer->map(function ($childer) {
             return [
-                'Nama UPT' => $childer->parent->auhtor = Auth::user()->name,
+                'Nama UPT' => $childer->parent->user->name,
                 'Nomor Sertifikasi' => $childer->parent->certificate_number,
                 'Tanggal Sertifikasi' => $childer->parent->certificate_date,
                 'Alamat' => $childer->parent->address,

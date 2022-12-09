@@ -38,6 +38,12 @@ export const DeleteConfirmation = ({
 
                 setTriggerDeleted(!triggerDeleted);
             }
+            Swal.fire({
+                title: "Terhapus",
+                icon: "success",
+                text: resJson.message,
+                timer: 1000,
+            });
 
             handleClose();
 

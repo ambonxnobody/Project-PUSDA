@@ -7,6 +7,8 @@ import { TableBagian } from "../../components/Table/TableBagian";
 import { TableBagianPinjamPakai } from "../../components/Table/TabelBagianPinjamPakai";
 import ReactPaginate from "react-paginate";
 
+import Swal from "sweetalert2";
+
 export const DetailIndukAdmin = ({ induk_id }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -75,12 +77,12 @@ export const DetailIndukAdmin = ({ induk_id }) => {
             try {
                 let res = await fetch(
                     apiUrl +
-                        "childer/all?page=" +
-                        pageNum +
-                        "&parent_id=" +
-                        params.induk_id + 
-                        "&keyword=" +
-                        search,
+                    "childer/all?page=" +
+                    pageNum +
+                    "&parent_id=" +
+                    params.induk_id +
+                    "&keyword=" +
+                    search,
                     {
                         method: "GET",
                         headers: {
@@ -96,15 +98,15 @@ export const DetailIndukAdmin = ({ induk_id }) => {
                     return console.log(resJson.message);
                 }
 
-                 // Check if result is from search
-                 if (Array.isArray(resJson.data)) {
+                // Check if result is from search
+                if (Array.isArray(resJson.data)) {
                     setPageCount(1);
                     setStartingPoint(1);
                 } else {
                     setPageCount(resJson.data.last_page);
                     setStartingPoint(
                         resJson.data.per_page * resJson.data.current_page -
-                            (resJson.data.per_page - 1)
+                        (resJson.data.per_page - 1)
                     );
                 }
 
@@ -121,7 +123,60 @@ export const DetailIndukAdmin = ({ induk_id }) => {
 
         fetchInduk().catch(console.error);
         fetchChildren().catch(console.error);
-    }, [pageNum, search]);
+    }, [pageNum, search]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const importDetailIndukAdmin = () => {
+        Swal.fire({
+            title: "Import Data",
+            text: "Upload file excel",
+            input: "file",
+            inputAttributes: {
+                accept: ".xls,.xlsx,.csv, .xlx",
+                "aria-label": "Upload your file",
+                name: "file",
+            },
+            showCancelButton: true,
+            confirmButtonText: "Upload",
+            showLoaderOnConfirm: true,
+            preConfirm: (file) => {
+                let token = localStorage.getItem("token");
+                let formData = new FormData();
+                formData.append("file", file);
+                formData.append("token", token);
+
+                return fetch(apiUrl + "import/file/children/" + induk.id, {
+                    method: "POST",
+                    body: formData,
+                }).then((response) => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                }).catch((error) => {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data berhasil diimport",
+                    icon: "success",
+                });
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Data gagal diimport",
+                    icon: "error",
+                });
+            }
+        });
+    };
 
     return (
         <LayoutAdmin>
@@ -240,6 +295,7 @@ export const DetailIndukAdmin = ({ induk_id }) => {
                                 onChange={(e) => setSearch(e.target.value)}
                             ></input>
                             <div
+                                onClick={importDetailIndukAdmin}
                                 className="secondary-btn d-flex align-items-center me-2"
                                 style={{ padding: "0 15px" }}
                             >
@@ -260,9 +316,9 @@ export const DetailIndukAdmin = ({ induk_id }) => {
                             children.map((item, key) => {
                                 if (
                                     item.utilization_engagement_type ==
-                                        "pinjam_pakai" ||
+                                    "pinjam_pakai" ||
                                     item.utilization_engagement_type ==
-                                        "pakai_sendiri"
+                                    "pakai_sendiri"
                                 ) {
                                     return (
                                         <TableBagianPinjamPakai
@@ -273,9 +329,9 @@ export const DetailIndukAdmin = ({ induk_id }) => {
                                     );
                                 } else if (
                                     item.utilization_engagement_type ==
-                                        "sewa_sip_bmd" ||
+                                    "sewa_sip_bmd" ||
                                     item.utilization_engagement_type ==
-                                        "retribusi"
+                                    "retribusi"
                                 ) {
                                     return (
                                         <TableBagian

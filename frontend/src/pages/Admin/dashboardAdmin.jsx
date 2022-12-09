@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DashboardTableRow } from "../../components/Dashboard/DashboardTableRow";
 import LayoutAdmin from "../../components/Layout/layoutAdmin";
 
-import { ExportCSV } from "../../components/ExportCSV";
+import { ExportExcel } from "../../components/ExportExcel";
 
 export const DashboardAdmin = () => {
 
@@ -98,7 +98,7 @@ export const DashboardAdmin = () => {
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                         Authorization: "Bearer " + token,
-                    },
+                    }
                 });
 
                 let resJson = await res.json();
@@ -135,7 +135,7 @@ export const DashboardAdmin = () => {
                     <option value="2019">2019</option>
                 </select>
                 <div className="d-flex gap-2 align-items-center">
-                    <ExportCSV csvData={exportData} fileName="Semua Data UPT" />
+                    <ExportExcel excelData={exportData} fileName="Semua Data UPT" />
                     {/* <div onClick={() => exportData()} className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
                         EXPORT DATA
                     </div> */}

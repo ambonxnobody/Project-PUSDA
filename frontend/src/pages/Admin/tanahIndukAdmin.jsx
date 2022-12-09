@@ -5,6 +5,8 @@ import { DeleteConfirmation } from "../../components/UPTDashboard/DeleteConfirma
 import { IndukTableRowAdmin } from "../../components/UPTDashboard/IndukTableRowAdmin";
 import ReactPaginate from "react-paginate";
 
+import Swal from "sweetalert2";
+
 export const TanahIndukAdmin = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -103,7 +105,7 @@ export const TanahIndukAdmin = () => {
         };
 
         fetchData().catch(console.error);
-    }, [params.id, triggerDeleted, pageNum, search]);
+    }, [params.id, triggerDeleted, pageNum, search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const toggleEditTanah = () => {
         if (openEditTanah) {
@@ -115,12 +117,66 @@ export const TanahIndukAdmin = () => {
         }
     };
 
+    const importDataTanahInduk = () => {
+        Swal.fire({
+            title: "Import Data",
+            text: "Upload file excel",
+            input: "file",
+            inputAttributes: {
+                accept: ".xls,.xlsx,.csv, .xlx",
+                "aria-label": "Upload your file",
+                name: "file",
+            },
+            showCancelButton: true,
+            confirmButtonText: "Upload",
+            showLoaderOnConfirm: true,
+            preConfirm: (file) => {
+                let token = localStorage.getItem("token");
+                let formData = new FormData();
+                formData.append("file", file);
+                formData.append("token", token);
+
+                return fetch(apiUrl + "import/file/parent", {
+                    method: "POST",
+                    body: formData,
+                }).then((response) => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                }).catch((error) => {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data berhasil diimport",
+                    icon: "success",
+                });
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Data gagal diimport",
+                    icon: "error",
+                });
+            }
+        });
+    };
+
     return (
         <LayoutAdmin>
             {!openEditTanah ? (
                 <>
                     <div className="d-flex flex-row justify-content-between px-3 py-3">
                         <div
+                            onClick={importDataTanahInduk}
                             className="secondary-btn d-flex align-items-center"
                             style={{ padding: "0 15px" }}
                         >

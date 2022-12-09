@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Childer;
 use App\Models\Parents;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-
 
 class DashboardController extends Controller
 {
@@ -207,6 +207,46 @@ class DashboardController extends Controller
                     "total_rupiah_sewa" => $total_rupiah_sewa
                 ]
             ]
+        ]);
+    }
+
+    public function getDataUPTAllExport(Request $request)
+    {
+        $childer = Childer::with('parent', 'payments')->get();
+
+        $data = $childer->map(function ($childer) {
+            return [
+                'Nama UPT' => $childer->parent->auhtor = Auth::user()->name,
+                'Nomor Sertifikasi' => $childer->parent->certificate_number,
+                'Tanggal Sertifikasi' => $childer->parent->certificate_date,
+                'Alamat' => $childer->parent->address,
+                'Luas Total' => $childer->parent->large,
+                'Nilai Aset' => $childer->parent->asset_value,
+
+                'Jenis Pemanfaatan' => $childer->utilization_engagement_type,
+                'Nama Penggunaan' => $childer->utilization_engagement_name,
+                'Sewa Retribusi' => $childer->rental_retribution,
+                'Peruntukan Penggunaan' => $childer->allotment_of_use,
+                'Koordinat' => $childer->coordinate,
+                'Luas' => $childer->large,
+                'Kondisi Sekarang' => $childer->present_condition,
+                'Masa Berlaku Dari' => $childer->validity_period_of,
+                'Masa Berlaku Sampai' => $childer->validity_period_until,
+                'Nomor Perikatan' => $childer->engagement_number,
+                'Tanggal Perikatan' => $childer->engagement_date,
+                'Keterangan' => $childer->description,
+
+                'Tahun' => implode(',', $childer->payments()->pluck('year')->toArray()),
+                'Jumlah Pembayaran' => implode(',', $childer->payments()->pluck('payment_amount')->toArray()),
+                // 'Tahun' => json_encode($childer->payments()->pluck('year')),
+                // 'Jumlah Pembayaran' => json_encode($childer->payments()->pluck('payment_amount')),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil',
+            'data' => $data,
         ]);
     }
 }

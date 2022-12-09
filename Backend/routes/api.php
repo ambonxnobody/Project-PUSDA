@@ -59,7 +59,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user/all', [ProfileController::class, 'userAll']);
 
     //  Export All Data
-    Route::get('/export/all/data/upt', [ImportExportData::class, 'exportMapping']);
+    // Route::get('/export/all/data/upt', [ImportExportData::class, 'exportMapping']);
+    Route::get('/export/all/data/upt', [DashboardController::class, 'getDataUPTAllExport']);
     //  Export UPT Data
     Route::get('/export/data', [ImportExportData::class, 'exportMappingUpt']);
     //  Import File parent
@@ -104,5 +105,4 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // dashboard
     Route::get('/dashboard/all/{year}', [DashboardController::class, 'getAll']);
     Route::get('/dashboard/{year}', [DashboardController::class, 'get']);
-
 });

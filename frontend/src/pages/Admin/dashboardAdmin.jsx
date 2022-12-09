@@ -14,6 +14,7 @@ export const DashboardAdmin = () => {
     });
 
     const [dashboardData, setDashboardData] = useState([]);
+    const [exportData, setExportData] = useState([]);
     const [total, setTotal] = useState({
         total_tanah_induk: 0,
         total_tanah_pinjam_pakai: 0,
@@ -88,32 +89,35 @@ export const DashboardAdmin = () => {
             }
         };
 
+        const getExportData = async () => {
+            let token = localStorage.getItem("token");
+
+            try {
+                let res = await fetch(apiUrl + "export/all/data/upt", {
+                    method: "GET",
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8",
+                        Authorization: "Bearer " + token,
+                    },
+                });
+
+                let resJson = await res.json();
+
+                if (res.status !== 200) {
+                    return console.log(resJson.message);
+                }
+
+                setExportData(resJson.data);
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         fetchData().catch(console.error);
+        getExportData().catch(console.error);
     }, [filterYear]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // const exportData = async () => {
-    //     let token = localStorage.getItem("token");
-
-    //     try {
-    //         let res = await fetch(apiUrl + "export/all/data/upt", {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-type": "application/json; charset=UTF-8",
-    //                 Authorization: "Bearer " + token,
-    //             },
-    //         });
-
-    //         let resJson = await res.json();
-
-    //         if (res.status !== 200) {
-    //             return console.log(resJson.message);
-    //         }
-
-    //         console.log(resJson);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     return (
         <LayoutAdmin>
@@ -131,8 +135,8 @@ export const DashboardAdmin = () => {
                     <option value="2019">2019</option>
                 </select>
                 <div className="d-flex gap-2 align-items-center">
-                    <ExportCSV csvData={dashboardData} fileName="Informasi Total Data UPT" />
-                    {/* <div className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
+                    <ExportCSV csvData={exportData} fileName="Semua Data UPT" />
+                    {/* <div onClick={() => exportData()} className="bg-cyanblue px-3 py-1 font-semibold text-white rounded primary-btn">
                         EXPORT DATA
                     </div> */}
                 </div>
